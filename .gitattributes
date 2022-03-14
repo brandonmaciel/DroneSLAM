@@ -1,0 +1,2 @@
+src/testing_data/bildstein_station1_xyz_intensity_rgb.labels filter=lfs diff=lfs merge=lfs -text
+src/testing_data/bildstein_station1_xyz_intensity_rgb.txt filter=lfs diff=lfs merge=lfs -text
