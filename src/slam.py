@@ -1,28 +1,31 @@
-#slam.py file
-
-
 import pptk
-import pandas as pd
 import numpy as np
+import pandas as pd
+from common.range import *
+import lidar
+import time
 
-def read_points(f):
-    # reads Semantic3D .txt file f into a pandas dataframe
-    col_names = ['x', 'y', 'z', 'i', 'r', 'g', 'b']
-    col_dtype = {'x': np.float32, 'y': np.float32, 'z': np.float32, 'i': np.int32,
-                  'r': np.uint8, 'g': np.uint8, 'b': np.uint8}
-    return pd.read_csv(f, names=col_names, dtype=col_dtype, delim_whitespace=True)
+# def get_camera_view():
+	# example usage:
+	#	# assume viewer has been initialized as v
+	#	cview = get_camera_view()
+	#	v.set(lookat=cview['lookat'], phi=cview['phi'], r=cview['r'], theta=cview['theta'])
+#	return {"lookat": v.get('lookat'), "phi": v.get('phi'), "r": v.get('r'), "theta": v.get('theta')}
+
+def main():
+	print("Starting slam")
+	
+	points = [[0, 0, 0]]
+	for x in range(10):
+		v.clear()
+		points = np.concatenate((points, np.random.rand(100, 3)))
+		cview = get_camera_view()
+		v.load(points, points[:, 2])
+		v.set(lookat=cview['lookat'], phi=cview['phi'], r=cview['r'], theta=cview['theta'])
+		time.sleep(1)
+	
+	
 
 
-def read_labels(f):
-    # reads Semantic3D .labels file f into a pandas dataframe
-    return pd.read_csv(f, header=None)[0].values
-
-points = read_points('testing_data/bildstein_station1_xyz_intensity_rgb.txt')
-labels = read_labels('testing_data/bildstein_station1_xyz_intensity_rgb.labels')
-
-v = pptk.viewer(points[['x', 'y', 'z']])
-v.attributes(points[['r', 'g', 'b']] / 255., points['i'])
-v.set(point_size=0.001)
-
-
-
+if __name__ == "__main__":
+	main()
