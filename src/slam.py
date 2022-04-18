@@ -14,18 +14,26 @@ import time
 
 def main():
 	print("Starting slam")
+
+	v = pptk.viewer([[0, 0, 0]])
+	v.clear()
+	v.set(point_size=0.0005)
+	sns = lidar.LIDAR()
 	
-	points = [[0, 0, 0]]
-	for x in range(10):
+#	points = [[0, 0, 0]]
+	x = 0.15
+	points = [[x, x, 0], [-x, x, 0], [-x, -x, 0], [x, -x, 0]]
+
+	for _ in range(20):
 		v.clear()
-		points = np.concatenate((points, np.random.rand(100, 3)))
-		cview = get_camera_view()
-		v.load(points, points[:, 2])
-		v.set(lookat=cview['lookat'], phi=cview['phi'], r=cview['r'], theta=cview['theta'])
-		time.sleep(1)
-	
+		sns.clear_sensor_buffer()
+		points.extend([sns.get_distance()])
+		v.load(points, [i[2] for i in points])	
 	
 
+	v.wait()
+	v.close()
+	sns.close_connection()
 
 if __name__ == "__main__":
 	main()
